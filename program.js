@@ -55,7 +55,7 @@
 //   console.log(data.join('\n'))
 // })
 
-// Challenge #7
+// Challenge #8
 // var http = require('http')
 //
 // http.get(process.argv[2], function callback(response) {
@@ -74,7 +74,7 @@
 //   })
 // })
 
-// Challenge 8 -first solution
+// Challenge 9 -first solution
 // var http = require('http')
 //
 // http.get(process.argv[2], function callback(response) {
@@ -119,7 +119,7 @@
 //   })
 // })
 
-// Challenge #8, 2nd solution:
+// Challenge #9, 2nd solution:
 // var http = require('http')
 // var results = []
 // var count = 0
@@ -147,7 +147,26 @@
 //     })
 //   })
 // }
+//
+// for (var i = 0; i < 3; i++) {
+//   httpGet(i)
+// }
 
-for (var i = 0; i < 3; i++) {
-  httpGet(i)
-}
+// Challenge #10
+var net = require('net')
+var port = process.argv[2]
+
+var server = net.createServer(function(socket) {
+  var date = new Date()
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  var hours = date.getHours()
+  var min = date.getMinutes()
+
+  if (min < 10 ) { min = "0" + min}
+  socket.write(`${year}-${month}-${day} ${hours}:${min}\n`)
+  socket.end()
+})
+
+server.listen(port)
