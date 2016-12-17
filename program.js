@@ -153,20 +153,32 @@
 // }
 
 // Challenge #10
-var net = require('net')
+// var net = require('net')
+// var port = process.argv[2]
+//
+// var server = net.createServer(function(socket) {
+//   var date = new Date()
+//   var year = date.getFullYear()
+//   var month = date.getMonth() + 1
+//   var day = date.getDate()
+//   var hours = date.getHours()
+//   var min = date.getMinutes()
+//
+//   if (min < 10 ) { min = "0" + min}
+//   socket.write(`${year}-${month}-${day} ${hours}:${min}\n`)
+//   socket.end()
+// })
+//
+// server.listen(port)
+
+// Challenge #11
+var http = require('http')
+var fs = require('fs')
 var port = process.argv[2]
+var dirname = process.argv[3]
 
-var server = net.createServer(function(socket) {
-  var date = new Date()
-  var year = date.getFullYear()
-  var month = date.getMonth() + 1
-  var day = date.getDate()
-  var hours = date.getHours()
-  var min = date.getMinutes()
-
-  if (min < 10 ) { min = "0" + min}
-  socket.write(`${year}-${month}-${day} ${hours}:${min}\n`)
-  socket.end()
+var server = http.createServer(function(request, response) {
+  var stream = fs.createReadStream(dirname)
+  stream.pipe(response)
 })
-
 server.listen(port)
