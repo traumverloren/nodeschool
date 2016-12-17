@@ -46,11 +46,31 @@
 // findFiles(logFiles)
 
 // Challenge #6
-var fileType = process.argv[3]
-var dirname = process.argv[2]
-var findFiles = require('./findFiles.js')
+// var fileType = process.argv[3]
+// var dirname = process.argv[2]
+// var findFiles = require('./findFiles.js')
+//
+// findFiles(dirname, fileType, function(err, data) {
+//   if (err) return console.log(err)
+//   console.log(data.join('\n'))
+// })
 
-findFiles(dirname, fileType, function(err, data) {
-  if (err) return console.log(err)
-  console.log(data.join('\n'))
+// Challenge #7
+var http = require('http')
+
+http.get(process.argv[2], function callback(response) {
+  response.setEncoding('utf8');
+  var body = ''
+  response.on('data', function(chunk) {
+    body += `${chunk}`
+  })
+  response.on('error', function(err) {
+    console.log(err)
+  })
+  response.on('end', function() {
+    console.log(`${body.length}`)
+    console.log(body)
+
+  })
+
 })
