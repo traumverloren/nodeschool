@@ -56,21 +56,98 @@
 // })
 
 // Challenge #7
-var http = require('http')
+// var http = require('http')
+//
+// http.get(process.argv[2], function callback(response) {
+//   response.setEncoding('utf8');
+//   var body = ''
+//   response.on('data', function(chunk) {
+//     body += `${chunk}`
+//   })
+//   response.on('error', function(err) {
+//     console.log(err)
+//   })
+//   response.on('end', function() {
+//     console.log(`${body.length}`)
+//     console.log(body)
+//
+//   })
+// })
 
-http.get(process.argv[2], function callback(response) {
-  response.setEncoding('utf8');
-  var body = ''
-  response.on('data', function(chunk) {
-    body += `${chunk}`
-  })
-  response.on('error', function(err) {
-    console.log(err)
-  })
-  response.on('end', function() {
-    console.log(`${body.length}`)
-    console.log(body)
+// Challenge 8 -first solution
+// var http = require('http')
+//
+// http.get(process.argv[2], function callback(response) {
+//   response.setEncoding('utf8');
+//   var body = ''
+//   response.on('data', function(chunk) {
+//     body += `${chunk}`
+//   })
+//   response.on('error', function(err) {
+//     console.log(err)
+//   })
+//   response.on('end', function() {
+//     console.log(body)
+//   })
+// })
+//
+// http.get(process.argv[3], function callback(response) {
+//   response.setEncoding('utf8');
+//   var body = ''
+//   response.on('data', function(chunk) {
+//     body += `${chunk}`
+//   })
+//   response.on('error', function(err) {
+//     console.log(err)
+//   })
+//   response.on('end', function() {
+//     console.log(body)
+//   })
+// })
+//
+// http.get(process.argv[4], function callback(response) {
+//   response.setEncoding('utf8');
+//   var body = ''
+//   response.on('data', function(chunk) {
+//     body += `${chunk}`
+//   })
+//   response.on('error', function(err) {
+//     console.log(err)
+//   })
+//   response.on('end', function() {
+//     console.log(body)
+//   })
+// })
 
-  })
+// Challenge #8, 2nd solution:
+// var http = require('http')
+// var results = []
+// var count = 0
+//
+// function httpGet(index) {
+//   http.get(process.argv[2+index], function callback(response) {
+//     response.setEncoding('utf8');
+//     var body = ''
+//     response.on('data', function(chunk) {
+//       body += `${chunk}`
+//     })
+//     response.on('error', function(err) {
+//       console.log(err)
+//     })
+//     response.on('end', function() {
+//       results[index] = body
+//       count++
+//
+//       // count gotta be in the end, since we are waiting on all the chunks for the 3 urls to finish!
+//       if (count === 3) {
+//          results.forEach(function(result) {
+//           console.log(result)
+//         })
+//       }
+//     })
+//   })
+// }
 
-})
+for (var i = 0; i < 3; i++) {
+  httpGet(i)
+}
