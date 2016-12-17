@@ -183,14 +183,42 @@
 // })
 // server.listen(port)
 
-// CHallenge #12
+// Challenge #12 httpUpperCase
+// var http = require('http')
+// var map = require('through2-map')
+// var port = process.argv[2]
+//
+// var server = http.createServer(function(request, response) {
+//   request.pipe(map(function (chunk) {
+//     return chunk.toString().toUpperCase()
+//   })).pipe(response)
+// })
+// server.listen(port)
+
+// Challenge #13 - Http Json Api server
 var http = require('http')
-var map = require('through2-map')
 var port = process.argv[2]
+var url = require('url')
 
 var server = http.createServer(function(request, response) {
-  request.pipe(map(function (chunk) {
-    return chunk.toString().toUpperCase()
-  })).pipe(response)
+var parsedUrl = url.parse(request.url, true)
+var time = new Date(parsedUrl.query.iso)
+var result
+
+if (request.url.includes('parsetime?iso=')) {
+  result = {
+    hour: time.getHours(),
+    minute: time.getMinutes(),
+    second: time.getSeconds()
+  }
+} else if (request.url.includes('unixtime?iso=')) {
+  result = {
+    unixtime: time.getTime()
+  }
+}
+
+response.writeHead(200, { 'Content-Type': 'application/json' })
+response.write(JSON.stringify(result))
+response.end()
 })
 server.listen(port)
