@@ -172,13 +172,25 @@
 // server.listen(port)
 
 // Challenge #11
+// var http = require('http')
+// var fs = require('fs')
+// var port = process.argv[2]
+// var dirname = process.argv[3]
+//
+// var server = http.createServer(function(request, response) {
+//   var stream = fs.createReadStream(dirname)
+//   stream.pipe(response)
+// })
+// server.listen(port)
+
+// CHallenge #12
 var http = require('http')
-var fs = require('fs')
+var map = require('through2-map')
 var port = process.argv[2]
-var dirname = process.argv[3]
 
 var server = http.createServer(function(request, response) {
-  var stream = fs.createReadStream(dirname)
-  stream.pipe(response)
+  request.pipe(map(function (chunk) {
+    return chunk.toString().toUpperCase()
+  })).pipe(response)
 })
 server.listen(port)
