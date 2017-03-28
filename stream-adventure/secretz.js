@@ -21,7 +21,7 @@ parser.on('entry', function (entry) {
   if (entry.type === 'File') {
     let md5 = crypto.createHash('md5', { encoding: 'hex' });
     entry.pipe(md5).pipe(through(function (hashedFile) {
-      console.log(`${hashedFile} ${entry.path}`);
+      process.stdout.write(`${hashedFile} ${entry.path}\n`);
     }));
   }
 });
