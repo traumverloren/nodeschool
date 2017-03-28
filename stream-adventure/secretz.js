@@ -19,6 +19,7 @@ let decipherStream = crypto.createDecipher(process.argv[2], process.argv[3]);
 
 parser.on('entry', function (entry) {
   if (entry.type === 'File') {
+    // have to pipe the file stream into a new MD5 stream everytime.
     let md5 = crypto.createHash('md5', { encoding: 'hex' });
     entry.pipe(md5).pipe(through(function (hashedFile) {
       process.stdout.write(`${hashedFile} ${entry.path}\n`);
