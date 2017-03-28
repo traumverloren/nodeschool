@@ -14,10 +14,12 @@ let parser = tar.Parse();
 // 4. go through it,
 //   find files and print a md5 hash of contents + filename + \n
 
-
-let decipherStream = crypto.createDecipher(process.argv[2], process.argv[3]);
+let passphrase = process.argv[3];
+let cipher = process.argv[2];
+let decipherStream = crypto.createDecipher(cipher, passphrase);
 
 parser.on('entry', function (entry) {
+
   function write(hashedEntry) {
     this.push(`${hashedEntry} ${entry.path}\n`);
   }
