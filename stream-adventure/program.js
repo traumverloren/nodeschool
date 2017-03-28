@@ -128,22 +128,58 @@
 // };
 
 // Duplexer redux (with through)
-let duplexer = require('duplexer2');
-let through = require('through2').obj;
+// let duplexer = require('duplexer2');
+// let through = require('through2').obj;
+//
+// module.exports = function (counter) {
+//   let countries = {};
+//   let writer = through(write, end);
+//
+//   function write(chunk, encoding, next) {
+//     countries[chunk.country] = (countries[chunk.country] || 0) + 1;
+//     next();
+//   };
+//
+//   function end() {
+//     counter.setCounts(countries);
+//   };
+//
+//   return duplexer({objectMode: true}, writer, counter);
+// };
 
-module.exports = function (counter) {
-  let countries = {};
-  let writer = through(write, end);
+// Combiner
+
+let combine = require('stream-combiner');
+let through = require('through2');
+let split = require('split');
+let zlib = require('zlib');
+
+module.exports = function () {
+  let genre = {};
+  return combine(
+    split(),
+    through(write, end),
+    zlib.createGzip()
+  );
 
   function write(chunk, encoding, next) {
-    countries[chunk.country] = (countries[chunk.country] || 0) + 1;
+    let entry = JSON.parse(chunk);
+    if (entry.type === 'genre') {
+      genre.name = entry.name;
+      genre.books = [];
+    } else if (entry.type === 'book') {
+      genre.books.push(entry.name);
+    }
+
+    this.push(`${JSON.stringify(genre)}`);
+
     next();
   };
 
   function end() {
-    counter.setCounts(countries);
+
+
+
+    console.log(`${JSON.stringify(genre)}\n`)
   };
-
-
-  return duplexer({objectMode: true}, writer, counter);
 };
